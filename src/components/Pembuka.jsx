@@ -4,6 +4,7 @@ import { Calendar } from 'lucide-react'
 
 export default function Pembuka() {
   const ref = useRef(null)
+  // Margin diset agar tidak ada efek kedip/flash di awal
   const inView = useInView(ref, { margin: '-40px' })
 
   // ─── FUNGSI GENERATE LINK GOOGLE CALENDAR ───
@@ -13,13 +14,11 @@ export default function Pembuka() {
     const details = 'Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kami.'
     
     // Format Waktu Google Calendar (Format UTC). 
-    // 12 Juni 2026 jam 19.00 WIB = 12 Juni 2026 jam 12.00 UTC
     const startDate = '20260612T120000Z'
-    const endDate = '20260613T140000Z' // Resepsi tanggal 13
+    const endDate = '20260613T140000Z' 
 
     const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}`
     
-    // Buka tab baru menuju Google Calendar
     window.open(url, '_blank')
   }
 
@@ -28,49 +27,59 @@ export default function Pembuka() {
       ref={ref}
       style={{
         position: 'relative',
-        height: '150vh', 
+        height: '150vh', // Ruang untuk scroll layer SalamCountdown
         zIndex: 1,
-        background: 'var(--warm-white)'
       }}
     >
+      {/* ── CONTAINER STICKY ── */}
       <div style={{
         position: 'sticky', 
         top: 0,
-        height: '100vh',
+        height: '100vh', // Layar diam
+        background: 'var(--warm-white)', // Background warna utuh agar menutupi elemen di belakangnya
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        overflow: 'hidden',
+        alignItems: 'center',
+        overflow: 'hidden' // Mengunci layar agar tidak bisa digeser horizontal
       }}>
-        {/* ── HIASAN BUNGA ATAS KANAN ── */}
+        
+        {/* ── HIASAN BUNGA ATAS KANAN (DI LUAR FRAME) ── */}
         <div style={{
-          position: 'absolute', top: 4, right: 4,
-          width: '48%', pointerEvents: 'none', zIndex: 5
+          position: 'absolute', top: 0, right: 0, 
+          width: '50%', maxWidth: '200px', pointerEvents: 'none', zIndex: 1
         }}>
-          <img src="/bunga_pojok.png" alt="" className="float-a" style={{ width: '100%', height: 'auto', opacity: 0.9 }} />
+          <img src="/bunga_pojok.png" alt="" className="float-a" style={{ width: '100%', height: 'auto', opacity: 0.95 }} />
         </div>
 
-        {/* ── HIASAN BUNGA ATAS KIRI (MIRROR) ── */}
+        {/* ── HIASAN BUNGA ATAS KIRI (DI LUAR FRAME) ── */}
         <div style={{
-          position: 'absolute', top: 4, left: 4,
-          width: '48%', pointerEvents: 'none', zIndex: 5,
+          position: 'absolute', top: 0, left: 0, 
+          width: '50%', maxWidth: '200px', pointerEvents: 'none', zIndex: 1,
           transform: 'scaleX(-1)'
         }}>
-          <img src="/bunga_pojok.png" alt="" className="float-b" style={{ width: '100%', height: 'auto', opacity: 0.9 }} />
+          <img src="/bunga_pojok.png" alt="" className="float-b" style={{ width: '100%', height: 'auto', opacity: 0.95 }} />
         </div>
 
         {/* ── FRAME UTAMA PEMBUKA ── */}
         <motion.div
-          initial={{ opacity: 0, y: 100 }} 
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 100 }} 
-          transition={{ duration: 1.6, ease: 'easeOut' }}
+          initial={{ opacity: 0, y: 50 }} 
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }} 
+          transition={{ duration: 1.2, ease: 'easeOut' }}
           className="card-arch"
           style={{
             margin: '0 auto',
-            width: '85%', maxWidth: '360px',
-            background: 'var(--ivory)', position: 'relative', zIndex: 2,
-            paddingTop: '60px', paddingBottom: '70px',
-            boxShadow: '0 12px 40px rgba(184,154,103,0.1)'
+            width: '85%', 
+            maxWidth: '340px', // Sedikit diperkecil lebarnya agar lengkungannya pas setengah lingkaran
+            background: 'var(--ivory)', 
+            position: 'relative', 
+            zIndex: 5, // Harus lebih tinggi dari bunga agar teks tidak tertutup
+            // KUNCI LENGKUNGAN SEMPURNA: 200px memastikan lengkungan berbentuk kubah bulat, tidak gepeng/runcing
+            borderRadius: '200px 200px 24px 24px', 
+            padding: '70px 24px 50px',
+            boxShadow: '0 12px 40px rgba(184,154,103,0.1)',
+            border: '1.5px solid var(--gold-border)',
+            textAlign: 'center'
           }}
         >
           <p style={{
@@ -91,15 +100,15 @@ export default function Pembuka() {
             Idzim
           </h1>
 
-          {/* ── TOMBOL DIBERI EVENT onClick ── */}
           <button 
             className="btn-primary" 
             onClick={handleSaveCalendar} 
             style={{ padding: '12px 28px', fontSize: 14 }}
           >
-            <Calendar size={15} /> Simpan di Kalender
+            <Calendar size={15} style={{ marginRight: 6 }}/> Simpan di Kalender
           </button>
         </motion.div>
+
       </div>
     </div>
   )

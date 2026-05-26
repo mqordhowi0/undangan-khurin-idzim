@@ -69,11 +69,10 @@ export default function Undangan() {
               <Pembuka />
               <SalamCountdown />
 
-              {/* Sisa konten (Mempelai, Acara, dsb) DIBUNGKUS overflow-x: hidden 
-                Ini yang akan secara otomatis dan paksa memotong semua animasi 
-                framer-motion yang "bocor" ke kanan atau kiri layar HP. 
+              {/* KUNCI FIX: Menggunakan overflowX: 'clip' agar aman memotong animasi 
+                yang bocor ke samping tanpa memicu efek scroll ganda vertikal.
               */}
-              <div style={{ overflowX: 'hidden', width: '100%' }}>
+              <div style={{ overflowX: 'clip', width: '100%' }}>
                 <Mempelai />
                 <Acara />
                 <LoveStory />
