@@ -1,0 +1,363 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Nunito:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Root Variables (TEMA NAVY) ─── */
+:root {
+  --ivory:        #F8FAFC;
+  --warm-white:   #FFFFFF;
+  --beige:        #E2E8F0;
+  --champagne:    #CBD5E1;
+  
+  /* Nama tetap --gold agar JSX tidak error, tapi warnanya diganti Navy */
+  --gold:         #1E3A8A; 
+  --gold-hover:   #1E40AF; 
+  --gold-light:   rgba(30, 58, 138, 0.15);
+  --gold-border:  rgba(30, 58, 138, 0.25);
+  --gold-shadow:  rgba(30, 58, 138, 0.15);
+  
+  --sage:         #94A3B8;
+  --sage-light:   #CBD5E1;
+  
+  /* Nuansa teks diubah menjadi Slate / Biru gelap */
+  --text-dark:    #0F172A;
+  --text-main:    #1E293B;
+  --text-soft:    #334155;
+  --text-muted:   #64748B;
+  --bg-outer:     #E2E8F0;
+}
+
+/* ─── Reset ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html  { scroll-behavior: smooth; }
+button { cursor: pointer; }
+img   { display: block; }
+
+/* ─── Body / Page ─── */
+body {
+  font-family: 'Nunito', sans-serif;
+  color: var(--text-main);
+  background: var(--bg-outer);
+  background-image:
+    radial-gradient(ellipse 90% 55% at 50%   0%, rgba(226,232,240,0.80) 0%, transparent 65%),
+    radial-gradient(ellipse 70% 55% at 50% 100%, rgba(203,213,225,0.50) 0%, transparent 60%);
+  min-height: 100vh;
+  /* Diubah menjadi clip agar lebih aman di browser HP */
+  overflow-x: clip; 
+}
+
+/* ─── App shell ─── */
+.app-bg {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 12px 72px;
+}
+
+/* ─── Main Frame ─── */
+.invitation-frame {
+  width: 100%;
+  max-width: 430px;
+  background: var(--ivory);
+  border-radius: 48px;
+  /* overflow: hidden; sengaja dimatikan agar sticky berjalan */
+  box-shadow:
+    0 32px 100px rgba(15,23,42,0.18), /* Bayangan luar diubah ke slate gelap */
+    0  8px  40px rgba(30,58,138,0.12), /* Bayangan dalam diubah ke navy */
+    inset 0 0 0 1px rgba(255,255,255,0.60);
+  position: relative;
+}
+
+/* ─── Font helpers ─── */
+.font-script  { font-family: 'Great Vibes', cursive; }
+.font-serif   { font-family: 'Cormorant Garamond', serif; }
+.font-sans    { font-family: 'Nunito', sans-serif; }
+
+/* ─── Floral images ─── */
+.floral-img {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ─── Section base ─── */
+.section-wrap {
+  position: relative;
+  padding: 60px 24px;
+  /* Diubah menjadi visible agar hiasan bunga mekar sempurna keluar batas tanpa terpotong */
+  overflow: visible !important; 
+}
+
+.section-label {
+  font-family: 'Nunito', sans-serif;
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--text-main);
+  text-align: center;
+  line-height: 1.15;
+}
+
+.gold-divider {
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 14px auto;
+}
+
+.gold-diamond {
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  margin: 0 auto;
+  opacity: 0.6;
+}
+
+.ornament-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+}
+.ornament-row .line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+}
+.ornament-row .dia {
+  width: 5px;
+  height: 5px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  opacity: 0.55;
+}
+
+/* ─── Cards ─── */
+.card-white {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid var(--gold-border);
+  box-shadow: 0 8px 32px var(--gold-shadow);
+  padding: 28px;
+}
+
+.card-arch {
+  background: #fff;
+  border-radius: 160px 160px 24px 24px;
+  border: 1.5px solid var(--gold-border);
+  box-shadow: 0 12px 44px var(--gold-shadow);
+  padding: 52px 24px 36px;
+  text-align: center;
+  position: relative;
+}
+
+/* ─── Buttons ─── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  /* Gradien navy ke biru terang */
+  background: linear-gradient(135deg, var(--gold) 0%, #2563EB 100%);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 40px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  /* Shadow navy */
+  box-shadow: 0 6px 28px rgba(30, 58, 138, 0.40);
+  transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.btn-primary:hover {
+  transform: translateY(-3px);
+  /* Hover navy lebih terang ke biru muda */
+  box-shadow: 0 10px 36px rgba(30, 58, 138, 0.52);
+  background: linear-gradient(135deg, var(--gold-hover) 0%, #3B82F6 100%);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--gold);
+  border: 1.5px solid var(--gold);
+  border-radius: 50px;
+  padding: 11px 30px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.btn-outline:hover {
+  background: var(--gold);
+  color: #fff;
+}
+
+/* ─── Countdown ─── */
+.countdown-grid {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.countdown-unit {
+  text-align: center;
+  flex: 1;
+}
+.countdown-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1;
+}
+.countdown-sep {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+  padding-top: 4px;
+}
+.countdown-label {
+  font-family: 'Nunito', sans-serif;
+  font-size: 9.5px;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 5px;
+}
+
+/* ─── Timeline ─── */
+.timeline-container {
+  position: relative;
+  padding: 12px 0;
+}
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--gold-light) 20%, var(--gold-light) 80%, transparent);
+  transform: translateX(-50%);
+}
+.timeline-dot {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* ─── Form ─── */
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--gold-border);
+  border-radius: 12px;
+  background: var(--warm-white);
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  color: var(--text-main);
+  outline: none;
+  transition: border-color 0.3s, background 0.3s;
+}
+.form-input:focus {
+  border-color: var(--gold);
+  background: #fff;
+}
+.form-textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+/* ─── Audio button ─── */
+.audio-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 20px;
+  z-index: 999;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid var(--gold-border);
+  box-shadow: 0 4px 20px var(--gold-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  transition: all 0.3s;
+}
+.audio-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(30, 58, 138, 0.30);
+}
+
+/* ─── Floating keyframes ─── */
+@keyframes floatA {
+  0%,100% { transform: translateY(0px) rotate(0deg); }
+  50%     { transform: translateY(-9px) rotate(0.6deg); }
+}
+@keyframes floatB {
+  0%,100% { transform: translateY(0px) rotate(0deg); }
+  35%     { transform: translateY(-6px) rotate(-0.5deg); }
+  70%     { transform: translateY(5px) rotate(0.4deg); }
+}
+@keyframes floatC {
+  0%,100% { transform: translateY(0px) rotate(0deg); }
+  30%     { transform: translateY(-11px) rotate(0.9deg); }
+  65%     { transform: translateY(6px) rotate(-0.7deg); }
+}
+@keyframes floatD {
+  0%,100% { transform: translateY(0px); }
+  50%     { transform: translateY(-7px); }
+}
+
+.float-a { animation: floatA 6.5s ease-in-out infinite; }
+.float-b { animation: floatB 7.8s ease-in-out infinite; }
+.float-c { animation: floatC 8.2s ease-in-out infinite; }
+.float-d { animation: floatD 5.8s ease-in-out infinite; }
+
+@keyframes softPulse {
+  0%,100% { opacity: 0.4; transform: scale(1); }
+  50%     { opacity: 0.8; transform: scale(1.12); }
+}
+.pulse-soft { animation: softPulse 3s ease-in-out infinite; }
+
+/* ─── Responsive ─── */
+@media (max-width: 460px) {
+  .app-bg {
+    padding: 0;
+    align-items: flex-start;
+  }
+  .invitation-frame {
+    border-radius: 0;
+    max-width: 100%;
+    min-height: 100dvh;
+  }
+}
