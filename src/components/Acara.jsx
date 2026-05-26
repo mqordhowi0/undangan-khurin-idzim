@@ -3,7 +3,7 @@ import { Calendar, Clock, MapPin } from 'lucide-react'
 
 const ease = [0.16, 1, 0.3, 1]
 
-function EventCard({ label, day, date, time, venue, delay }) {
+function EventCard({ label, day, date, time, delay }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 70 }}
@@ -11,14 +11,8 @@ function EventCard({ label, day, date, time, venue, delay }) {
       viewport={{ once: false, margin: '-40px', amount: 0.1 }}
       transition={{ duration: 1.1, ease, delay }}
       className="card-arch"
-      style={{ marginBottom: 20 }}
+      style={{ marginBottom: 20, zIndex: 2, position: 'relative' }}
     >
-      <div style={{
-        position: 'absolute', top: 0, left: 0, right: 0, height: 4,
-        background: 'linear-gradient(90deg, transparent, var(--gold), transparent)',
-        borderRadius: '50% 50% 0 0',
-      }} />
-
       <p style={{
         fontFamily: 'Nunito, sans-serif',
         fontSize: 10, letterSpacing: '3px',
@@ -30,7 +24,6 @@ function EventCard({ label, day, date, time, venue, delay }) {
 
       <div style={{
         width: 44, height: 44, borderRadius: '50%',
-        // Menggunakan variabel tema agar warnanya menyesuaikan menjadi Navy (tidak lagi warna gold manual)
         background: 'linear-gradient(135deg, var(--gold-light), transparent)',
         border: '1px solid var(--gold-border)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -70,17 +63,33 @@ function EventCard({ label, day, date, time, venue, delay }) {
         </p>
       </div>
 
+      {/* ── PERBAIKAN: Struktur Alamat Dua Baris dengan Ikon di Baris Pertama ── */}
       <div style={{
-        display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
-        gap: 8, marginBottom: 20,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 20,
       }}>
-        <MapPin size={13} color="var(--gold)" style={{ marginTop: 3, flexShrink: 0 }} />
+        {/* Baris Pertama: Ikon + Detail Jalan/RT/RW */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 2 }}>
+          <MapPin size={13} color="var(--gold)" style={{ flexShrink: 0 }} />
+          <p style={{
+            fontFamily: 'Nunito, sans-serif',
+            fontSize: 13, color: 'var(--text-soft)',
+            lineHeight: 1.4, textAlign: 'center',
+          }}>
+            Gondang RT 08 RW 02, Kepulungan
+          </p>
+        </div>
+        
+        {/* Baris Kedua: Kecamatan & Kota */}
         <p style={{
           fontFamily: 'Nunito, sans-serif',
           fontSize: 13, color: 'var(--text-soft)',
-          lineHeight: 1.6, textAlign: 'left',
+          lineHeight: 1.4, textAlign: 'center',
         }}>
-          {venue}
+          Gempol, Pasuruan
         </p>
       </div>
 
@@ -104,12 +113,11 @@ export default function Acara() {
       style={{
         background: 'linear-gradient(180deg, var(--ivory) 0%, var(--beige) 100%)',
         position: 'relative',
-        // KUNCI FIX: Padding atas diperbesar agar teks turun dan tidak menabrak bunga pembatas
         paddingTop: '120px', 
         paddingBottom: '80px',
       }}
     >
-      {/* ── BUNGA PEMBATAS (Bridge dari Mempelai ke Acara) ── */}
+      {/* ── BUNGA PEMBATAS ATAS ── */}
       <div style={{
         position: 'absolute', top: -35, left: '50%', transform: 'translateX(-50%)',
         width: '105%', minWidth: 380, pointerEvents: 'none', zIndex: 50,
@@ -117,13 +125,28 @@ export default function Acara() {
         <img src="/bunga_pembatas.png" alt="" className="float-d" style={{ width: '100%', height: 'auto', opacity: 0.95 }} />
       </div>
 
+      {/* ── TAMBAHAN HIASAN BUNGA KIRI ATAS ── */}
       <div style={{
-        position: 'absolute', bottom: -20, left: '50%',
-        transform: 'translateX(-50%)',
+        position: 'absolute', top: '12%', left: -25, width: '45%', maxWidth: '200px',
+        pointerEvents: 'none', zIndex: 0, opacity: 0.45, transform: 'scaleX(-1)'
+      }}>
+        <img src="/bunga_tengah.png" alt="" className="floral-img float-b" style={{ width: '100%', height: 'auto' }} />
+      </div>
+
+      {/* ── TAMBAHAN HIASAN BUNGA KANAN BAWAH ── */}
+      <div style={{
+        position: 'absolute', bottom: '15%', right: -25, width: '45%', maxWidth: '200px',
+        pointerEvents: 'none', zIndex: 0, opacity: 0.45
+      }}>
+        <img src="/bunga_tengah.png" alt="" className="floral-img float-a" style={{ width: '100%', height: 'auto' }} />
+      </div>
+
+      {/* ── BUNGA KECIL TENGAH BAWAH ── */}
+      <div style={{
+        position: 'absolute', bottom: -20, left: '50%', transform: 'translateX(-50%)',
         width: '60%', pointerEvents: 'none', zIndex: 0, opacity: 0.28,
       }}>
-        <img src="/bunga_kecil_tengah.png" alt="" className="floral-img float-c"
-          style={{ width: '100%', height: 'auto' }} />
+        <img src="/bunga_kecil_tengah.png" alt="" className="floral-img float-c" style={{ width: '100%', height: 'auto' }} />
       </div>
 
       <motion.div
@@ -145,7 +168,6 @@ export default function Acara() {
           day="Jum'at"
           date="12 Juni 2026"
           time="19.00 WIB – Selesai"
-          venue="Gondang RT 08 RW 02, Kepulungan, Gempol, Pasuruan"
           delay={0.1}
         />
         <EventCard
@@ -153,7 +175,6 @@ export default function Acara() {
           day="Sabtu"
           date="13 Juni 2026"
           time="16.00 WIB – Selesai"
-          venue="Gondang RT 08 RW 02, Kepulungan, Gempol, Pasuruan"
           delay={0.3}
         />
       </div>

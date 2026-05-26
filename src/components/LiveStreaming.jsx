@@ -10,7 +10,6 @@ export default function LiveStreaming() {
   const inView = useInView(ref, { once: true, margin: '-60px' })
   const [liveLink, setLiveLink] = useState('#')
 
-  // Ambil link streaming dari Supabase
   useEffect(() => {
     const fetchLink = async () => {
       const { data } = await supabase.from('settings').select('live_link').eq('id', 1).single()
@@ -29,11 +28,28 @@ export default function LiveStreaming() {
         paddingTop: '60px',
       }}
     >
+      {/* ── BUNGA PEMBATAS ATAS ── */}
       <div style={{
         position: 'absolute', top: -35, left: '50%', transform: 'translateX(-50%)',
         width: '105%', minWidth: 380, pointerEvents: 'none', zIndex: 50,
       }}>
         <img src="/bunga_pembatas.png" alt="" className="float-d" style={{ width: '100%', height: 'auto', opacity: 0.95 }} />
+      </div>
+
+      {/* ── TAMBAHAN WATERMARK BUNGA TENGAH (BACKGROUND) ── */}
+      <div style={{
+        position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+        width: '90%', maxWidth: '350px', pointerEvents: 'none', zIndex: 0, opacity: 0.15
+      }}>
+        <img src="/bunga_tengah.png" alt="" className="pulse-soft" style={{ width: '100%', height: 'auto' }} />
+      </div>
+
+      {/* ── TAMBAHAN HIASAN BUNGA KIRI (BACKGROUND) ── */}
+      <div style={{
+        position: 'absolute', top: '35%', left: -30, width: '45%', maxWidth: '180px',
+        pointerEvents: 'none', zIndex: 0, opacity: 0.5, transform: 'scaleX(-1)'
+      }}>
+        <img src="/bunga_kecil.png" alt="" className="float-c" style={{ width: '100%', height: 'auto' }} />
       </div>
 
       <motion.div
@@ -55,11 +71,7 @@ export default function LiveStreaming() {
         className="card-arch"
         style={{ position: 'relative', zIndex: 1 }}
       >
-        <div style={{
-          position: 'absolute', top: 0, left: 0, right: 0, height: 4,
-          background: 'linear-gradient(90deg, transparent, #FF0000, transparent)',
-          opacity: 0.6,
-        }} />
+        {/* Garis merah atas sudah dihapus total di sini */}
 
         <div style={{
           width: 52, height: 52, borderRadius: '50%',
@@ -111,7 +123,6 @@ export default function LiveStreaming() {
           </div>
         </div>
 
-        {/* Link YouTube sekarang dikendalikan oleh Database */}
         <a
           href={liveLink}
           target="_blank"

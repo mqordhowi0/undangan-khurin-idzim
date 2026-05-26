@@ -26,11 +26,14 @@ function PersonCard({ img, name, fullName, role, parents, delay }) {
       </motion.div>
 
       <p style={{ fontFamily: 'Nunito, sans-serif', fontSize: 10, letterSpacing: '3px', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 6 }}>{role}</p>
-      <h2 style={{ fontFamily: 'Great Vibes, cursive', fontSize: 44, color: 'var(--text-dark)', lineHeight: 1.05, marginBottom: 4 }}>{name}</h2>
-      <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 14.5, color: 'var(--text-soft)', marginBottom: 10 }}>{fullName}</p>
       
-      {/* whiteSpace: 'pre-line' memastikan karakter \n membuat teks turun baris */}
-      <p style={{ fontFamily: 'Nunito, sans-serif', fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7, whiteSpace: 'pre-line' }}>{parents}</p>
+      <h2 style={{ fontFamily: 'Great Vibes, cursive', fontSize: 44, color: 'var(--text-dark)', lineHeight: 1.05, marginBottom: 4 }}>{name}</h2>
+      
+      {/* Diperbesar menjadi fontSize 18 dan fontWeight 500 */}
+      <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 18, fontWeight: 500, color: 'var(--text-soft)', marginBottom: 10 }}>{fullName}</p>
+      
+      {/* Diperbesar menjadi fontSize 14 */}
+      <p style={{ fontFamily: 'Nunito, sans-serif', fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7, whiteSpace: 'pre-line' }}>{parents}</p>
     </motion.div>
   )
 }

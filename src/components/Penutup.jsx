@@ -175,7 +175,6 @@ export default function Penutup() {
             opacity: 0.7,
           }}
         >
-          Made with 🤍 · White Lily Invitation
         </motion.p>
       </div>
     </div>

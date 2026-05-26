@@ -4,7 +4,6 @@ import { Calendar } from 'lucide-react'
 
 export default function Pembuka() {
   const ref = useRef(null)
-  // Margin diset agar tidak ada efek kedip/flash di awal
   const inView = useInView(ref, { margin: '-40px' })
 
   // ─── FUNGSI GENERATE LINK GOOGLE CALENDAR ───
@@ -29,55 +28,74 @@ export default function Pembuka() {
         position: 'relative',
         height: '150vh', // Ruang untuk scroll layer SalamCountdown
         zIndex: 1,
+        background: 'var(--warm-white)',
+        borderRadius: '48px 48px 0 0' // Melengkung mengikuti bentuk frame HP
       }}
     >
       {/* ── CONTAINER STICKY ── */}
       <div style={{
         position: 'sticky', 
         top: 0,
-        height: '100vh', // Layar diam
-        background: 'var(--warm-white)', // Background warna utuh agar menutupi elemen di belakangnya
+        height: '100vh', 
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        overflow: 'hidden' // Mengunci layar agar tidak bisa digeser horizontal
+        overflow: 'hidden', 
+        borderRadius: '48px 48px 0 0', 
       }}>
+
+        {/* ── BACKGROUND BUNGA TRANSPARAN (WATERMARK TENGAH) ── */}
+        {/* Opacity dinaikkan jadi 0.25 dan blur dihilangkan agar lebih kelihatan jelas */}
+        <div style={{
+          position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+          width: '120%', maxWidth: '500px', pointerEvents: 'none', zIndex: 0, 
+          opacity: 0.25 
+        }}>
+          <img src="/bunga_tengah.png" alt="" style={{ width: '100%', height: 'auto' }} />
+        </div>
         
-        {/* ── HIASAN BUNGA ATAS KANAN (DI LUAR FRAME) ── */}
+        {/* ── HIASAN BUNGA ATAS (Menggunakan Bunga Tengah) ── */}
         <div style={{
-          position: 'absolute', top: 0, right: 0, 
-          width: '50%', maxWidth: '200px', pointerEvents: 'none', zIndex: 1
+          position: 'absolute', top: -10, left: '50%', transform: 'translateX(-50%)',
+          width: '80%', maxWidth: '300px', pointerEvents: 'none', zIndex: 1
         }}>
-          <img src="/bunga_pojok.png" alt="" className="float-a" style={{ width: '100%', height: 'auto', opacity: 0.95 }} />
+          <img src="/bunga_tengah.png" alt="" className="float-a" style={{ width: '100%', height: 'auto', opacity: 0.95 }} />
         </div>
 
-        {/* ── HIASAN BUNGA ATAS KIRI (DI LUAR FRAME) ── */}
+        {/* ── TAMBAHAN BUNGA BAWAH KANAN (Menggunakan Bunga Kecil) ── */}
         <div style={{
-          position: 'absolute', top: 0, left: 0, 
-          width: '50%', maxWidth: '200px', pointerEvents: 'none', zIndex: 1,
-          transform: 'scaleX(-1)'
+          position: 'absolute', bottom: -10, right: -15, 
+          width: '50%', maxWidth: '180px', pointerEvents: 'none', zIndex: 1,
+          opacity: 0.85
         }}>
-          <img src="/bunga_pojok.png" alt="" className="float-b" style={{ width: '100%', height: 'auto', opacity: 0.95 }} />
+          <img src="/bunga_kecil.png" alt="" className="float-c" style={{ width: '100%', height: 'auto' }} />
+        </div>
+        
+        {/* ── TAMBAHAN BUNGA BAWAH KIRI (Menggunakan Bunga Kecil, Dimirror) ── */}
+        <div style={{
+          position: 'absolute', bottom: -10, left: -15, 
+          width: '50%', maxWidth: '180px', pointerEvents: 'none', zIndex: 1,
+          transform: 'scaleX(-1)', opacity: 0.85
+        }}>
+          <img src="/bunga_kecil.png" alt="" className="float-d" style={{ width: '100%', height: 'auto' }} />
         </div>
 
-        {/* ── FRAME UTAMA PEMBUKA ── */}
+        {/* ── FRAME UTAMA PEMBUKA (ARCH SEMPURNA) ── */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }} 
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }} 
-          transition={{ duration: 1.2, ease: 'easeOut' }}
+          initial={{ opacity: 0, y: 70 }} 
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 70 }} 
+          transition={{ duration: 1.4, ease: 'easeOut' }}
           className="card-arch"
           style={{
             margin: '0 auto',
-            width: '85%', 
-            maxWidth: '340px', // Sedikit diperkecil lebarnya agar lengkungannya pas setengah lingkaran
+            width: '85%', maxWidth: '340px', 
             background: 'var(--ivory)', 
             position: 'relative', 
-            zIndex: 5, // Harus lebih tinggi dari bunga agar teks tidak tertutup
-            // KUNCI LENGKUNGAN SEMPURNA: 200px memastikan lengkungan berbentuk kubah bulat, tidak gepeng/runcing
+            zIndex: 5, 
             borderRadius: '200px 200px 24px 24px', 
             padding: '70px 24px 50px',
-            boxShadow: '0 12px 40px rgba(184,154,103,0.1)',
+            boxShadow: '0 12px 40px rgba(30, 58, 138, 0.08)',
             border: '1.5px solid var(--gold-border)',
             textAlign: 'center'
           }}
