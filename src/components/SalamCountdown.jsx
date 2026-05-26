@@ -54,49 +54,54 @@ export default function SalamCountdown() {
       }}
     >
       
-      {/* ── BACKGROUND BUNGA TENGAH (Paling Belakang) ── */}
-      <div style={{
-        position: 'absolute',
-        top: '15%',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: '100%',
-        maxWidth: '360px',
-        zIndex: 0,
-        pointerEvents: 'none',
-        opacity: 0.85
-      }}>
-        <img src="/bunga_tengah.png" alt="" style={{ width: '100%', height: 'auto' }} className="float-c pulse-soft" />
-      </div>
-
       {/* ── CONTAINER UTAMA PILAR ── */}
       <div style={{ 
         display: 'flex', 
-        alignItems: 'stretch', // Memaksa kedua pilar memiliki tinggi yang mentok sampai bawah
-        justifyContent: 'center', 
-        gap: '2%', 
+        alignItems: 'stretch', 
+        justifyContent: 'flex-start', 
         width: '100%', 
         overflow: 'hidden', 
         position: 'relative', 
         paddingTop: '20px',
-        // KUNCI: Padding bawah 0 agar pilar benar-benar menempel ke dasar section
         paddingBottom: '0px' 
       }}>
         
+        {/* ── HIASAN BUNGA 1 (Area Merah Atas Kanan Pilar Kiri) ── */}
+        <div style={{
+          position: 'absolute',
+          top: '5px', 
+          right: '-40%', 
+          width: '100%', 
+          maxWidth: '400px',
+          zIndex: 0, 
+          pointerEvents: 'none',
+        }}>
+          <motion.img 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+            transition={{ duration: 1.4, delay: 0.2 }}
+            src="/bunga_tengah.png" 
+            alt="" 
+            style={{ width: '100%', height: 'auto', transform: 'rotate(15deg)' }} 
+            className="float-b"
+          />
+        </div>
+
         {/* ── PILAR KIRI: SALAM (zIndex: 1) ── */}
         <motion.div
           initial={{ opacity: 0, y: 150 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 150 }}
           transition={{ duration: 1.4, ease, delay: 0.1 }}
           style={{
-            width: '56%',
-            marginLeft: '-10%',
+            width: '100%', 
+            flexShrink: 0,
+            marginLeft: '-40%', // Menyembunyikan persis 4/10 bagian (Sisa 6/10 muncul di layar)
             background: 'rgba(255, 255, 255, 0.88)',
             backdropFilter: 'blur(8px)',
             border: '1.5px solid var(--gold-border)',
-            borderRadius: '200px 200px 0 0', 
-            // KUNCI: Padding bawah dikurangi drastis (dari 150px ke 80px) agar tidak kopong
-            padding: '70px 10px 0px 10%', 
+            borderRadius: '350px 350px 0 0', 
+            // Padding presisi: 46% kiri agar teks terdorong ke 60% area yang terlihat
+            padding: '70px 6% 130px 46%', 
             zIndex: 1, 
             boxShadow: '4px 10px 40px rgba(30,58,138,0.06)',
             display: 'flex',
@@ -130,15 +135,13 @@ export default function SalamCountdown() {
           </div>
         </motion.div>
 
-        {/* ── BUNGA TUMPANG TINDIH (zIndex: 2, Disisipkan di tengah) ── */}
+        {/* ── HIASAN BUNGA 2 (Area Merah Bawah Kiri Pilar Kiri) ── */}
         <div style={{
           position: 'absolute',
-          // KUNCI: Ditarik paksa ke batas paling bawah dan diperkecil
-          bottom: '100px', 
-          left: '80%', 
-          transform: 'translateX(-50%)',
-          width: '75%', 
-          maxWidth: '280px', // Diperkecil agar tidak naik menabrak teks
+          bottom: '-70px', 
+          left: '-5%', 
+          width: '55%', 
+          maxWidth: '220px',
           zIndex: 2, 
           pointerEvents: 'none',
         }}>
@@ -148,30 +151,7 @@ export default function SalamCountdown() {
             transition={{ duration: 1.4, delay: 0.4 }}
             src="/bunga_tengah.png" 
             alt="" 
-            style={{ width: '100%', height: 'auto', transform: 'rotate(-10deg)' }} 
-            className="float-a"
-          />
-        </div>
-
-        {/* ── BUNGA TUMPANG TINDIH (zIndex: 2, Disisipkan di tengah) ── */}
-        <div style={{
-          position: 'absolute',
-          // KUNCI: Ditarik paksa ke batas paling bawah dan diperkecil
-          bottom: '-60px', 
-          left: '20%', 
-          transform: 'translateX(-50%)',
-          width: '90%', 
-          maxWidth: '280px', // Diperkecil agar tidak naik menabrak teks
-          zIndex: 2, 
-          pointerEvents: 'none',
-        }}>
-          <motion.img 
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-            transition={{ duration: 1.4, delay: 0.4 }}
-            src="/bunga_kecil_tengah.png" 
-            alt="" 
-            style={{ width: '100%', height: 'auto', transform: 'rotate(-10deg)' }} 
+            style={{ width: '100%', height: 'auto', transform: 'rotate(-45deg)' }} 
             className="float-a"
           />
         </div>
@@ -182,17 +162,19 @@ export default function SalamCountdown() {
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 200 }}
           transition={{ duration: 1.4, ease, delay: 0.3 }}
           style={{
-            width: '56%', 
-            marginRight: '-10%', 
-            marginTop: '100px', // Mulai lebih rendah dibanding pilar kiri
+            width: '100%', // Dibuat 100% raksasa
+            flexShrink: 0,
+            marginLeft: '-10%', // Menimpa pilar salam sebesar 10%
+            marginRight: '-50%', // KUNCI: Menyembunyikan persis 5/10 bagian (Setengah pilar)
+            marginTop: '130px',
             background: 'rgba(255, 255, 255, 0.88)',
             backdropFilter: 'blur(8px)',
             border: '1.5px solid var(--gold-border)',
-            borderRadius: '200px 200px 0 0', 
-            // KUNCI: Padding bawah dikurangi agar pas dan tidak kopong
-            padding: '50px 10% 80px 10px', 
+            borderRadius: '350px 350px 0 0', 
+            // Padding presisi: 56% kanan untuk memaksa teks masuk ke 5/10 area kiri yang terlihat
+            padding: '50px 55% 100px 14%', 
             zIndex: 3, 
-            boxShadow: '-4px 10px 40px rgba(30,58,138,0.06)',
+            boxShadow: '-6px 10px 40px rgba(30,58,138,0.07)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center'
@@ -216,7 +198,7 @@ export default function SalamCountdown() {
 
       </div>
 
-      {/* ── BUNGA PEMBATAS BAWAH (Menutup area paling dasar) ── */}
+      {/* ── BUNGA PEMBATAS BAWAH ── */}
       <div style={{
         position: 'absolute', 
         bottom: -35, 
