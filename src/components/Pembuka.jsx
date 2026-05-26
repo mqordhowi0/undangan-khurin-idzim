@@ -4,34 +4,45 @@ import { Calendar } from 'lucide-react'
 
 export default function Pembuka() {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-40px' })
+  const inView = useInView(ref, { margin: '-40px' })
+
+  // ─── FUNGSI GENERATE LINK GOOGLE CALENDAR ───
+  const handleSaveCalendar = () => {
+    const title = 'Pernikahan Khurin & Idzim'
+    const location = 'Gondang RT 08 RW 02, Kepulungan, Gempol, Pasuruan'
+    const details = 'Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kami.'
+    
+    // Format Waktu Google Calendar (Format UTC). 
+    // 12 Juni 2026 jam 19.00 WIB = 12 Juni 2026 jam 12.00 UTC
+    const startDate = '20260612T120000Z'
+    const endDate = '20260613T140000Z' // Resepsi tanggal 13
+
+    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}`
+    
+    // Buka tab baru menuju Google Calendar
+    window.open(url, '_blank')
+  }
 
   return (
     <div
       ref={ref}
       style={{
         position: 'relative',
-        height: '150vh', // Height for sticky scroll duration
+        height: '150vh', 
         zIndex: 1,
-        background: 'var(--warm-white)',
-        // ── KUNCI PERBAIKAN 1: Menjaga sudut luar tetap melengkung rapi saat scrolling ──
-        borderTopLeftRadius: '48px', 
-        borderTopRightRadius: '48px',
+        background: 'var(--warm-white)'
       }}
     >
       <div style={{
-        position: 'sticky', // Makes the frame sticky
+        position: 'sticky', 
         top: 0,
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         overflow: 'hidden',
-        // ── KUNCI PERBAIKAN 2: Sudut konten sticky juga harus melengkung agar serasi ──
-        borderTopLeftRadius: '48px', 
-        borderTopRightRadius: '48px',
       }}>
-        {/* ── Top-Right Floral ── */}
+        {/* ── HIASAN BUNGA ATAS KANAN ── */}
         <div style={{
           position: 'absolute', top: 4, right: 4,
           width: '48%', pointerEvents: 'none', zIndex: 5
@@ -39,7 +50,7 @@ export default function Pembuka() {
           <img src="/bunga_pojok.png" alt="" className="float-a" style={{ width: '100%', height: 'auto', opacity: 0.9 }} />
         </div>
 
-        {/* ── Top-Left Floral (Mirror) ── */}
+        {/* ── HIASAN BUNGA ATAS KIRI (MIRROR) ── */}
         <div style={{
           position: 'absolute', top: 4, left: 4,
           width: '48%', pointerEvents: 'none', zIndex: 5,
@@ -48,10 +59,10 @@ export default function Pembuka() {
           <img src="/bunga_pojok.png" alt="" className="float-b" style={{ width: '100%', height: 'auto', opacity: 0.9 }} />
         </div>
 
-        {/* ── Pembuka Main Frame ── */}
+        {/* ── FRAME UTAMA PEMBUKA ── */}
         <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0, y: 100 }} 
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 100 }} 
           transition={{ duration: 1.6, ease: 'easeOut' }}
           className="card-arch"
           style={{
@@ -80,8 +91,13 @@ export default function Pembuka() {
             Idzim
           </h1>
 
-          <button className="btn-primary" style={{ padding: '12px 28px', fontSize: 14 }}>
-            <Calendar size={15} /> Save to Calendar
+          {/* ── TOMBOL DIBERI EVENT onClick ── */}
+          <button 
+            className="btn-primary" 
+            onClick={handleSaveCalendar} 
+            style={{ padding: '12px 28px', fontSize: 14 }}
+          >
+            <Calendar size={15} /> Simpan di Kalender
           </button>
         </motion.div>
       </div>
