@@ -125,7 +125,7 @@ export default function Cover({ onOpen }) {
             Kepada Yth.
           </p>
           <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 17.5, fontStyle: 'italic', color: 'var(--text-main)' }}>
-            Nama Tamu Undangan
+            Tamu Undangan
           </p>
           <p style={{ fontFamily: 'Nunito, sans-serif', fontSize: 10, color: 'var(--text-muted)', marginTop: 4 }}>
             & Keluarga
