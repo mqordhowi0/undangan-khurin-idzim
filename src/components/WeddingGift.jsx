@@ -1,10 +1,11 @@
 import { useRef, useState, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { Gift, Copy, Check } from 'lucide-react'
+import { Gift, Copy, Check, Home } from 'lucide-react'
 import { supabase } from '../supabase'
 
 const ease = [0.16, 1, 0.3, 1]
 
+// ─── KOMPONEN BANK ───
 function BankCard({ bank, holder, account, inView, delay }) {
   const [copied, setCopied] = useState(false)
 
@@ -25,7 +26,6 @@ function BankCard({ bank, holder, account, inView, delay }) {
     }
   }
 
-  // Mencegah error jika data belum termuat
   if (!bank || !account) return null
 
   return (
@@ -84,12 +84,89 @@ function BankCard({ bank, holder, account, inView, delay }) {
   )
 }
 
-export default function WeddingGift() {
+// ─── KOMPONEN ALAMAT KADO FISIK ───
+function AddressCard({ receiver, address, inView, delay }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(address)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      const el = document.createElement('input')
+      el.value = address
+      document.body.appendChild(el)
+      el.select()
+      document.execCommand('copy')
+      document.body.removeChild(el)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1.0, ease, delay }}
+      className="card-white"
+      style={{ marginBottom: 16 }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+        <div style={{
+          width: 38, height: 38, borderRadius: 10,
+          background: 'linear-gradient(135deg, var(--gold), #2563EB)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: '0 3px 14px rgba(30,58,138,0.3)',
+        }}>
+          <Home size={18} color="#fff" />
+        </div>
+        <div>
+          <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 17, fontWeight: 600, color: 'var(--text-dark)' }}>
+            Kirim Kado Fisik
+          </p>
+          <p style={{ fontFamily: 'Nunito, sans-serif', fontSize: 11.5, color: 'var(--text-muted)' }}>
+            Penerima: {receiver}
+          </p>
+        </div>
+      </div>
+
+      <div style={{
+        background: 'var(--warm-white)', borderRadius: 12, padding: '12px 16px',
+        border: '1px solid var(--gold-border)', marginBottom: 14,
+      }}>
+        <p style={{ fontFamily: 'Nunito, sans-serif', fontSize: 13, color: 'var(--text-dark)', lineHeight: 1.5, marginBottom: 16 }}>
+          {address}
+        </p>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <motion.button
+            onClick={handleCopy}
+            whileTap={{ scale: 0.9 }}
+            style={{
+              background: copied ? 'var(--sage)' : 'var(--gold)',
+              color: '#fff', border: 'none', borderRadius: 8, padding: '6px 12px',
+              display: 'flex', alignItems: 'center', gap: 5,
+              fontFamily: 'Nunito, sans-serif', fontSize: 11.5, fontWeight: 600,
+              transition: 'background 0.3s',
+            }}
+          >
+            {copied ? <Check size={12} /> : <Copy size={12} />}
+            {copied ? 'Tersalin!' : 'Salin Alamat'}
+          </motion.button>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+// ─── MAIN COMPONENT ───
+// Menerima variant dari App.jsx -> Undangan.jsx
+export default function WeddingGift({ variant = 'khurin' }) {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-60px' })
   const [dbSettings, setDbSettings] = useState(null)
 
-  // Ambil settingan dari Supabase
   useEffect(() => {
     const fetchBankData = async () => {
       const { data } = await supabase.from('settings').select('*').eq('id', 1).single()
@@ -97,6 +174,15 @@ export default function WeddingGift() {
     }
     fetchBankData()
   }, [])
+
+  // ─── DATA ALAMAT DINAMIS BERDASARKAN VARIANT ───
+  const addressData = variant === 'idzim' ? {
+    receiver: "Muhammad Idzim Dimas Aril",
+    address: "Jl. AT TAUBAH RT 23 RW 04 Damarsi, Buduran, Sidoarjo"
+  } : {
+    receiver: "Khurin Dian Safitri",
+    address: "Gondang RT 08 RW 02, Kepulungan, Gempol, Pasuruan (Belakang pemandian air panas)"
+  };
 
   return (
     <div
@@ -132,12 +218,12 @@ export default function WeddingGift() {
         <div className="gold-divider" />
         <p style={{ fontFamily: 'Nunito, sans-serif', fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.75, marginTop: 12 }}>
           Doa dan kehadiran Anda adalah anugerah terindah bagi kami.
-          Namun jika Anda ingin memberikan tanda kasih, dapat melalui rekening berikut.
+          Namun jika Anda ingin memberikan tanda kasih, dapat melalui rekening atau alamat berikut.
         </p>
       </motion.div>
 
       <div style={{ position: 'relative', zIndex: 1 }}>
-        {/* Datanya sekarang di-render dari State DB */}
+        {/* Rekening Bank dari Database (Tetap sama) */}
         {dbSettings && (
           <BankCard 
             bank={dbSettings.bank} 
@@ -147,12 +233,20 @@ export default function WeddingGift() {
             delay={0.2} 
           />
         )}
+
+        {/* Kotak Baru: Alamat Kirim Kado Fisik (Dinamis) */}
+        <AddressCard 
+          receiver={addressData.receiver}
+          address={addressData.address}
+          inView={inView}
+          delay={0.4}
+        />
       </div>
 
       <motion.p
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.8, ease, delay: 0.5 }}
+        transition={{ duration: 0.8, ease, delay: 0.6 }}
         style={{
           fontFamily: 'Cormorant Garamond, serif', fontSize: 13.5, fontStyle: 'italic',
           color: 'var(--text-muted)', textAlign: 'center', position: 'relative', zIndex: 1, marginTop: 8,

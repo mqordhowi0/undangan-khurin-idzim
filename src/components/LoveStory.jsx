@@ -3,21 +3,22 @@ import { Heart } from 'lucide-react'
 
 const ease = [0.16, 1, 0.3, 1]
 
+// Data array story sekarang statis, sama untuk kedua versi
 const stories = [
   {
-    year: '2018',
+    year: '2025',
     title: 'Pertemuan Pertama',
     body: 'Sebuah pertemuan sederhana yang tak terduga menjadi awal dari sebuah cerita indah yang Allah tuliskan untuk kami berdua.',
     emoji: '🌸',
   },
   {
-    year: '2020',
+    year: '2025',
     title: 'Saling Mengenal',
     body: 'Hari-hari berlalu dengan percakapan yang bermakna, tawa yang tulus, dan hati yang perlahan saling terikat dalam ukhuwah dan rasa.',
     emoji: '🌿',
   },
   {
-    year: '2022',
+    year: '2026',
     title: 'Meyakinkan Hati',
     body: 'Dengan doa dan restu orang tua, kami meyakinkan hati bahwa inilah jalan yang Allah ridhoi – melangkah bersama menuju mahligai rumah tangga.',
     emoji: '🤍',
@@ -31,7 +32,6 @@ const stories = [
 ]
 
 function StoryCard({ story, index }) {
-  // Semua animasi datang dari kanan sekarang agar seragam
   return (
     <div style={{ position: 'relative', marginBottom: 40, display: 'flex', alignItems: 'flex-start', paddingLeft: '40px' }}>
       
@@ -47,8 +47,8 @@ function StoryCard({ story, index }) {
         transition={{ duration: 0.8, ease, delay: 0.1 }}
         className="card-white"
         style={{
-          width: '100%', // KUNCI FIX: Menggunakan seluruh sisa lebar layar agar tidak ceper
-          textAlign: 'left', // Teks dibuat rata kiri agar rapi
+          width: '100%', 
+          textAlign: 'left', 
         }}
       >
         <p style={{
@@ -78,7 +78,8 @@ function StoryCard({ story, index }) {
   )
 }
 
-export default function LoveStory() {
+// Meskipun menerima variant, tapi datanya tetap sama
+export default function LoveStory({ variant }) {
   return (
     <div
       className="section-wrap"

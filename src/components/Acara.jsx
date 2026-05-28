@@ -3,7 +3,8 @@ import { Calendar, Clock, MapPin } from 'lucide-react'
 
 const ease = [0.16, 1, 0.3, 1]
 
-function EventCard({ label, day, date, time, delay }) {
+// Tambahan props venue1, venue2, venue3, dan mapLink agar dinamis
+function EventCard({ label, day, date, time, venue1, venue2, venue3, mapLink, delay }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 70 }}
@@ -63,7 +64,7 @@ function EventCard({ label, day, date, time, delay }) {
         </p>
       </div>
 
-      {/* ── PERBAIKAN: Struktur Alamat Dua Baris dengan Ikon di Baris Pertama ── */}
+      {/* ── ALAMAT DINAMIS DUA BARIS + KETERANGAN TAMBAHAN ── */}
       <div style={{
         display: 'flex',
         flexDirection: 'column',
@@ -79,7 +80,7 @@ function EventCard({ label, day, date, time, delay }) {
             fontSize: 13, color: 'var(--text-soft)',
             lineHeight: 1.4, textAlign: 'center',
           }}>
-            Gondang RT 08 RW 02, Kepulungan
+            {venue1}
           </p>
         </div>
         
@@ -89,12 +90,24 @@ function EventCard({ label, day, date, time, delay }) {
           fontSize: 13, color: 'var(--text-soft)',
           lineHeight: 1.4, textAlign: 'center',
         }}>
-          Gempol, Pasuruan
+          {venue2}
         </p>
+
+        {/* Baris Ketiga (Opsional): Keterangan tambahan seperti "Belakang pemandian..." */}
+        {venue3 && (
+          <p style={{
+            fontFamily: 'Nunito, sans-serif',
+            fontSize: 12, color: 'var(--text-muted)',
+            lineHeight: 1.4, textAlign: 'center',
+            marginTop: 4, fontStyle: 'italic'
+          }}>
+            ({venue3})
+          </p>
+        )}
       </div>
 
       <a
-        href={`https://maps.google.com/?q=Gondang+Kepulungan+Gempol+Pasuruan`}
+        href={mapLink}
         target="_blank"
         rel="noreferrer"
         className="btn-outline"
@@ -106,7 +119,32 @@ function EventCard({ label, day, date, time, delay }) {
   )
 }
 
-export default function Acara() {
+// Menangkap prop variant dari atas (default ke 'khurin')
+export default function Acara({ variant = 'khurin' }) {
+  
+  // Data Akad (Sama untuk kedua versi)
+  const dataAkad = {
+    day: "Jum'at", date: "12 Juni 2026", time: "19.00 WIB – Selesai",
+    venue1: "Gondang RT 08 RW 02, Kepulungan", venue2: "Gempol, Pasuruan",
+    venue3: null,
+    mapLink: "https://maps.google.com/?q=Gondang+Kepulungan+Gempol+Pasuruan"
+  }
+
+  // Data Resepsi (Beda versi beda isinya)
+  const dataResepsi = variant === 'idzim'
+    ? {
+        day: "Minggu", date: "14 Juni 2026", time: "16.00 WIB – Selesai",
+        venue1: "Jl. AT TAUBAH RT 23 RW 04 Damarsi", venue2: "Buduran, Sidoarjo",
+        venue3: null,
+        mapLink: "https://maps.app.goo.gl/hDEe3saU7Yra2FDg7"
+      }
+    : {
+        day: "Sabtu", date: "13 Juni 2026", time: "Jam Bebas",
+        venue1: "Gondang RT 08 RW 02, Kepulungan", venue2: "Gempol, Pasuruan",
+        venue3: "Belakang pemandian air panas",
+        mapLink: "https://maps.app.goo.gl/ZceEbpxN6VEd83KW9" // Link map baru Khurin
+      }
+
   return (
     <div
       className="section-wrap"
@@ -165,16 +203,24 @@ export default function Acara() {
       <div style={{ position: 'relative', zIndex: 1 }}>
         <EventCard
           label="Akad Nikah"
-          day="Jum'at"
-          date="12 Juni 2026"
-          time="19.00 WIB – Selesai"
+          day={dataAkad.day}
+          date={dataAkad.date}
+          time={dataAkad.time}
+          venue1={dataAkad.venue1}
+          venue2={dataAkad.venue2}
+          venue3={dataAkad.venue3}
+          mapLink={dataAkad.mapLink}
           delay={0.1}
         />
         <EventCard
           label="Resepsi Pernikahan"
-          day="Sabtu"
-          date="13 Juni 2026"
-          time="16.00 WIB – Selesai"
+          day={dataResepsi.day}
+          date={dataResepsi.date}
+          time={dataResepsi.time}
+          venue1={dataResepsi.venue1}
+          venue2={dataResepsi.venue2}
+          venue3={dataResepsi.venue3}
+          mapLink={dataResepsi.mapLink}
           delay={0.3}
         />
       </div>

@@ -1,13 +1,18 @@
-// src/App.jsx
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Undangan from './Undangan' // Kita pindahkan isi App lama ke sini
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import Undangan from './Undangan'
 import ConfigPage from './ConfigPage'
 
 export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Undangan />} />
+        {/* Default route dilempar ke /cewe kalau ada yang buka link tanpa embel-embel */}
+        <Route path="/" element={<Navigate to="/cewe" replace />} />
+        
+        {/* Melempar variant "cewe" atau "cowo" ke komponen Undangan */}
+        <Route path="/khurin" element={<Undangan variant="khurin" />} />
+        <Route path="/idzim" element={<Undangan variant="idzim" />} />
+        
         <Route path="/config" element={<ConfigPage />} />
       </Routes>
     </Router>

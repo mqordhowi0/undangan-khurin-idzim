@@ -13,7 +13,8 @@ import Penutup from './components/Penutup'
 import AudioPlayer from './components/AudioPlayer'
 import './index.css'
 
-export default function Undangan() {
+// Menangkap prop variant dari App.jsx
+export default function Undangan({ variant }) {
   const [isOpen, setIsOpen] = useState(false)
   const audioRef = useRef(null)
 
@@ -22,11 +23,9 @@ export default function Undangan() {
     if (audioRef.current) {
       audioRef.current.play().catch(() => {})
     }
-    // Memastikan saat buka undangan posisi scroll berada di paling atas
     window.scrollTo({ top: 0, behavior: 'instant' })
   }
 
-  // Mengunci scroll browser saat cover belum dibuka
   useEffect(() => {
     if (!isOpen) {
       document.body.style.overflow = 'hidden'
@@ -52,7 +51,8 @@ export default function Undangan() {
               exit={{ opacity: 0, y: -40 }} 
               transition={{ duration: 0.8, ease: 'easeInOut' }}
             >
-              <Cover onOpen={handleOpen} />
+              {/* Melempar variant ke Cover agar tanggalnya bisa ganti */}
+              <Cover onOpen={handleOpen} variant={variant} />
             </motion.div>
           ) : (
             <motion.div
@@ -63,23 +63,21 @@ export default function Undangan() {
             >
               <AudioPlayer audioRef={audioRef} />
               
-              {/* Komponen Pembuka dan SalamCountdown TIDAK dibungkus overflow 
-                agar fitur position: sticky tetap berjalan sempurna 
-              */}
-              <Pembuka />
+              <Pembuka variant={variant} />
               <SalamCountdown />
 
-              {/* KUNCI FIX: Menggunakan overflowX: 'clip' agar aman memotong animasi 
-                yang bocor ke samping tanpa memicu efek scroll ganda vertikal.
-              */}
               <div style={{ overflowX: 'clip', width: '100%' }}>
-                <Mempelai />
-                <Acara />
-                <LoveStory />
-                <LiveStreaming />
-                <WeddingGift />
-                <RSVP />
-                <Penutup />
+                {/* Variant dilempar ke dalam agar datanya berubah */}
+                <Mempelai variant={variant} />
+                <Acara variant={variant} />
+                <LoveStory variant={variant} />
+                
+                {/* KUNCI: Live Streaming HANYA MUNCUL JIKA COWOK */}
+                {variant === 'idzim' && <LiveStreaming />}
+                
+                <WeddingGift variant={variant} />
+                <RSVP variant={variant} />
+                <Penutup variant={variant} />
               </div>
               
             </motion.div>
