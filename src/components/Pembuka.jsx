@@ -2,7 +2,8 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Calendar } from 'lucide-react'
 
-export default function Pembuka() {
+// Tambahkan penangkapan prop variant (default 'khurin')
+export default function Pembuka({ variant = 'khurin' }) {
   const ref = useRef(null)
   const inView = useInView(ref, { margin: '-40px' })
 
@@ -20,6 +21,10 @@ export default function Pembuka() {
     
     window.open(url, '_blank')
   }
+
+  // ─── LOGIKA POSISI NAMA ───
+  const namaAtas = variant === 'idzim' ? 'Idzim' : 'Khurin'
+  const namaBawah = variant === 'idzim' ? 'Khurin' : 'Idzim'
 
   return (
     <div
@@ -46,7 +51,6 @@ export default function Pembuka() {
       }}>
 
         {/* ── BACKGROUND BUNGA TRANSPARAN (WATERMARK TENGAH) ── */}
-        {/* Opacity dinaikkan jadi 0.25 dan blur dihilangkan agar lebih kelihatan jelas */}
         <div style={{
           position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
           width: '120%', maxWidth: '500px', pointerEvents: 'none', zIndex: 0, 
@@ -108,14 +112,15 @@ export default function Pembuka() {
             We invite you to our<br />wedding celebration
           </p>
 
+          {/* Render nama dinamis berdasarkan variant */}
           <h1 style={{ fontFamily: 'Great Vibes, cursive', fontSize: 58, color: 'var(--gold)', lineHeight: 1.1 }}>
-            Khurin
+            {namaAtas}
           </h1>
           <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 26, fontStyle: 'italic', color: 'var(--text-soft)', margin: '10px 0' }}>
             &
           </div>
           <h1 style={{ fontFamily: 'Great Vibes, cursive', fontSize: 58, color: 'var(--gold)', lineHeight: 1.1, marginBottom: 36 }}>
-            Idzim
+            {namaBawah}
           </h1>
 
           <button 

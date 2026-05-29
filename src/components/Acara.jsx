@@ -3,7 +3,6 @@ import { Calendar, Clock, MapPin } from 'lucide-react'
 
 const ease = [0.16, 1, 0.3, 1]
 
-// Tambahan props venue1, venue2, venue3, dan mapLink agar dinamis
 function EventCard({ label, day, date, time, venue1, venue2, venue3, mapLink, delay }) {
   return (
     <motion.div
@@ -64,7 +63,6 @@ function EventCard({ label, day, date, time, venue1, venue2, venue3, mapLink, de
         </p>
       </div>
 
-      {/* ── ALAMAT DINAMIS DUA BARIS + KETERANGAN TAMBAHAN ── */}
       <div style={{
         display: 'flex',
         flexDirection: 'column',
@@ -72,7 +70,6 @@ function EventCard({ label, day, date, time, venue1, venue2, venue3, mapLink, de
         justifyContent: 'center',
         marginBottom: 20,
       }}>
-        {/* Baris Pertama: Ikon + Detail Jalan/RT/RW */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 2 }}>
           <MapPin size={13} color="var(--gold)" style={{ flexShrink: 0 }} />
           <p style={{
@@ -84,7 +81,6 @@ function EventCard({ label, day, date, time, venue1, venue2, venue3, mapLink, de
           </p>
         </div>
         
-        {/* Baris Kedua: Kecamatan & Kota */}
         <p style={{
           fontFamily: 'Nunito, sans-serif',
           fontSize: 13, color: 'var(--text-soft)',
@@ -93,7 +89,6 @@ function EventCard({ label, day, date, time, venue1, venue2, venue3, mapLink, de
           {venue2}
         </p>
 
-        {/* Baris Ketiga (Opsional): Keterangan tambahan seperti "Belakang pemandian..." */}
         {venue3 && (
           <p style={{
             fontFamily: 'Nunito, sans-serif',
@@ -119,15 +114,17 @@ function EventCard({ label, day, date, time, venue1, venue2, venue3, mapLink, de
   )
 }
 
-// Menangkap prop variant dari atas (default ke 'khurin')
 export default function Acara({ variant = 'khurin' }) {
   
-  // Data Akad (Sama untuk kedua versi)
+  // Link Maps baru berdasarkan koordinat yang kamu kasih
+  const newMapLink = "https://www.google.com/maps/place/-7.624237,112.685794";
+
+  // Data Akad (Sama untuk kedua versi, pakai link baru)
   const dataAkad = {
     day: "Jum'at", date: "12 Juni 2026", time: "19.00 WIB – Selesai",
     venue1: "Gondang RT 08 RW 02, Kepulungan", venue2: "Gempol, Pasuruan",
-    venue3: null,
-    mapLink: "https://maps.google.com/?q=Gondang+Kepulungan+Gempol+Pasuruan"
+    venue3: "Belakang pemandian air panas",
+    mapLink: newMapLink
   }
 
   // Data Resepsi (Beda versi beda isinya)
@@ -136,13 +133,13 @@ export default function Acara({ variant = 'khurin' }) {
         day: "Minggu", date: "14 Juni 2026", time: "16.00 WIB – Selesai",
         venue1: "Jl. AT TAUBAH RT 23 RW 04 Damarsi", venue2: "Buduran, Sidoarjo",
         venue3: null,
-        mapLink: "https://maps.app.goo.gl/hDEe3saU7Yra2FDg7"
+        mapLink: "https://maps.app.goo.gl/hDEe3saU7Yra2FDg7" // Tetap seperti semula
       }
     : {
         day: "Sabtu", date: "13 Juni 2026", time: "Jam Bebas",
         venue1: "Gondang RT 08 RW 02, Kepulungan", venue2: "Gempol, Pasuruan",
         venue3: "Belakang pemandian air panas",
-        mapLink: "https://maps.app.goo.gl/ZceEbpxN6VEd83KW9" // Link map baru Khurin
+        mapLink: newMapLink // Pakai link baru
       }
 
   return (
@@ -155,7 +152,6 @@ export default function Acara({ variant = 'khurin' }) {
         paddingBottom: '80px',
       }}
     >
-      {/* ── BUNGA PEMBATAS ATAS ── */}
       <div style={{
         position: 'absolute', top: -35, left: '50%', transform: 'translateX(-50%)',
         width: '105%', minWidth: 380, pointerEvents: 'none', zIndex: 50,
@@ -163,7 +159,6 @@ export default function Acara({ variant = 'khurin' }) {
         <img src="/bunga_pembatas.png" alt="" className="float-d" style={{ width: '100%', height: 'auto', opacity: 0.95 }} />
       </div>
 
-      {/* ── TAMBAHAN HIASAN BUNGA KIRI ATAS ── */}
       <div style={{
         position: 'absolute', top: '12%', left: -25, width: '45%', maxWidth: '200px',
         pointerEvents: 'none', zIndex: 0, opacity: 0.45, transform: 'scaleX(-1)'
@@ -171,7 +166,6 @@ export default function Acara({ variant = 'khurin' }) {
         <img src="/bunga_tengah.png" alt="" className="floral-img float-b" style={{ width: '100%', height: 'auto' }} />
       </div>
 
-      {/* ── TAMBAHAN HIASAN BUNGA KANAN BAWAH ── */}
       <div style={{
         position: 'absolute', bottom: '15%', right: -25, width: '45%', maxWidth: '200px',
         pointerEvents: 'none', zIndex: 0, opacity: 0.45
@@ -179,7 +173,6 @@ export default function Acara({ variant = 'khurin' }) {
         <img src="/bunga_tengah.png" alt="" className="floral-img float-a" style={{ width: '100%', height: 'auto' }} />
       </div>
 
-      {/* ── BUNGA KECIL TENGAH BAWAH ── */}
       <div style={{
         position: 'absolute', bottom: -20, left: '50%', transform: 'translateX(-50%)',
         width: '60%', pointerEvents: 'none', zIndex: 0, opacity: 0.28,

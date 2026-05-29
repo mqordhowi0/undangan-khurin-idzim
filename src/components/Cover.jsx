@@ -19,7 +19,13 @@ const fadeUp = (delay = 0) => ({
   visible: { opacity: 1, y: 0, transition: { duration: 0.9, delay, ease } },
 })
 
-export default function Cover({ onOpen }) {
+// Menambahkan penangkapan prop variant (default 'khurin')
+export default function Cover({ onOpen, variant = 'khurin' }) {
+  
+  // ─── LOGIKA POSISI NAMA ───
+  const namaAtas = variant === 'idzim' ? 'Idzim' : 'Khurin'
+  const namaBawah = variant === 'idzim' ? 'Khurin' : 'Idzim'
+
   return (
     <div style={{
       position: 'relative',
@@ -84,11 +90,12 @@ export default function Cover({ onOpen }) {
         </motion.p>
 
         <motion.div variants={fadeUp(0.80)} initial="hidden" animate="visible">
+          {/* Render nama dinamis berdasarkan variant */}
           <h1 style={{
             fontFamily: 'Great Vibes, cursive', fontSize: 'clamp(54px, 14vw, 76px)',
             color: 'var(--text-dark)', lineHeight: 1.08,
           }}>
-            Khurin
+            {namaAtas}
           </h1>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '2px 0' }}>
@@ -101,7 +108,7 @@ export default function Cover({ onOpen }) {
             fontFamily: 'Great Vibes, cursive', fontSize: 'clamp(54px, 14vw, 76px)',
             color: 'var(--text-dark)', lineHeight: 1.08, marginBottom: 22,
           }}>
-            Idzim
+            {namaBawah}
           </h1>
         </motion.div>
 
@@ -126,9 +133,6 @@ export default function Cover({ onOpen }) {
           </p>
           <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 17.5, fontStyle: 'italic', color: 'var(--text-main)' }}>
             Tamu Undangan
-          </p>
-          <p style={{ fontFamily: 'Nunito, sans-serif', fontSize: 10, color: 'var(--text-muted)', marginTop: 4 }}>
-            & Keluarga
           </p>
         </motion.div>
 

@@ -6,14 +6,13 @@ import SalamCountdown from './components/SalamCountdown'
 import Mempelai from './components/Mempelai'
 import Acara from './components/Acara'
 import LoveStory from './components/LoveStory'
-import LiveStreaming from './components/LiveStreaming'
+// LiveStreaming dihilangkan dari import
 import WeddingGift from './components/WeddingGift'
 import RSVP from './components/RSVP'
 import Penutup from './components/Penutup'
 import AudioPlayer from './components/AudioPlayer'
 import './index.css'
 
-// Menangkap prop variant dari App.jsx
 export default function Undangan({ variant }) {
   const [isOpen, setIsOpen] = useState(false)
   const audioRef = useRef(null)
@@ -51,7 +50,6 @@ export default function Undangan({ variant }) {
               exit={{ opacity: 0, y: -40 }} 
               transition={{ duration: 0.8, ease: 'easeInOut' }}
             >
-              {/* Melempar variant ke Cover agar tanggalnya bisa ganti */}
               <Cover onOpen={handleOpen} variant={variant} />
             </motion.div>
           ) : (
@@ -67,13 +65,11 @@ export default function Undangan({ variant }) {
               <SalamCountdown />
 
               <div style={{ overflowX: 'clip', width: '100%' }}>
-                {/* Variant dilempar ke dalam agar datanya berubah */}
                 <Mempelai variant={variant} />
                 <Acara variant={variant} />
                 <LoveStory variant={variant} />
                 
-                {/* KUNCI: Live Streaming HANYA MUNCUL JIKA COWOK */}
-                {variant === 'idzim' && <LiveStreaming />}
+                {/* Komponen LiveStreaming sudah dihapus dari sini */}
                 
                 <WeddingGift variant={variant} />
                 <RSVP variant={variant} />
