@@ -7,7 +7,7 @@ export default function App() {
     <Router>
       <Routes>
         {/* Default route dilempar ke /cewe kalau ada yang buka link tanpa embel-embel */}
-        <Route path="/" element={<Navigate to="/cewe" replace />} />
+        <Route path="/" element={<Navigate to="/khurin" replace />} />
         
         {/* Melempar variant "cewe" atau "cowo" ke komponen Undangan */}
         <Route path="/khurin" element={<Undangan variant="khurin" />} />
